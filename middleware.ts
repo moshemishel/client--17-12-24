@@ -15,7 +15,7 @@ export function middleware(request: NextRequest) {
 
 if (publicPathsRegex.test(pathname)) {
     return NextResponse.next();
-}
+    };
     
     const rawCookie = request.cookies.get('auth_user')?.value;
     let user: User | undefined;
