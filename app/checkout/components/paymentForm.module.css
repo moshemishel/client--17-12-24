@@ -1,0 +1,64 @@
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+}
+
+/* Container for the amount to pay */
+.amountContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 12px 16px;
+  background-color: #fff;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Label for the amount */
+.amountLabel {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #555;
+  margin-right: 12px;
+}
+
+
+.amountValue {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2e7d32; 
+  letter-spacing: 0.5px;
+}
+
+.textField {
+    width: 100%;
+    max-width: 400px;
+}
+
+.submitButton {
+    margin-top: 16px;
+    width: fit-content;
+}
+
+
+.dateInput {
+    font-family: monospace;
+    width: 100px;
+    padding: 5px;
+    letter-spacing: 2px;
+    border: 1px solid #ccc;
+    outline: none;
+  }
+  
+.placeholder {
+    color: #ccc;
+  }
+  
+.inputted {
+    color: black;
+  }
