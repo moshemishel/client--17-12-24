@@ -1,4 +1,5 @@
 'use client';
+import handleCreateUser from './componnets/createUser'
 import { useState, useMemo, useEffect } from 'react';
 import {
     MaterialReactTable,
@@ -8,6 +9,7 @@ import {
     type MRT_Row
 } from 'material-react-table';
 import { UsersTable } from '@/types/dashboards/UsersTable';
+import CraeteUserButton from './componnets/createUserButton';
 
 
 type ColumnFilter = {
@@ -17,7 +19,7 @@ type ColumnFilter = {
 
 const UsersTableComponent = () => {
     const [data, setData] = useState<UsersTable[]>([]);
-    
+
 
 
     useEffect(() => {
@@ -78,15 +80,15 @@ const UsersTableComponent = () => {
                 header: 'Status',
                 id: 'isActive',
                 filterVariant: 'checkbox',
-                Cell: ({cell}) => {
-                    return cell.getValue() === 'true' ? 'Active' : 'Deleted'; 
+                Cell: ({ cell }) => {
+                    return cell.getValue() === 'true' ? 'Active' : 'Deleted';
                 }
             },
             {
                 accessorKey: 'userName',
                 header: 'User Name',
             },
-            
+
             {
                 accessorKey: 'email',
                 header: 'Email',
@@ -116,8 +118,8 @@ const UsersTableComponent = () => {
         columnFilterDisplayMode: 'popover',
         initialState: {
             pagination: { pageSize: 10, pageIndex: 0 },
-            columnVisibility : {'isActive' : false},
-            columnFilters : [
+            columnVisibility: { 'isActive': true },
+            columnFilters: [
                 {
                     id: 'isActive',
                     value: true,
@@ -127,8 +129,14 @@ const UsersTableComponent = () => {
         muiPaginationProps: {
             rowsPerPageOptions: [10, 50, 100],
         },
-        
+        onCreatingRowSave: handleCreateUser,
+
+        renderTopToolbarCustomActions: () => <CraeteUserButton />,
+
     });
+
+
+
 
     return (
         <div>
