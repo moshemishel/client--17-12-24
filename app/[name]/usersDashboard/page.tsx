@@ -4,12 +4,11 @@ import {
     MaterialReactTable,
     useMaterialReactTable,
     type MRT_ColumnDef,
-    type VisibilityState,
-    type FilterFn
+    type MRT_FilterFn,
+    type MRT_Row
 } from 'material-react-table';
 import { UsersTable } from '@/types/dashboards/UsersTable';
-import { Box, Button, Tooltip } from '@mui/material';
-import PeopleOutlineOutlinedIcon from '@mui/icons-material/PeopleOutlineOutlined';
+
 
 type ColumnFilter = {
     id: string;
@@ -18,30 +17,8 @@ type ColumnFilter = {
 
 const UsersTableComponent = () => {
     const [data, setData] = useState<UsersTable[]>([]);
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
-        isActive: false,
-    });
+    
 
-    const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([
-        {
-            id: 'isActive',
-            value: true,
-        },
-    ]);
-
-    const handleToggleIsActiveColumn = () => {
-        setColumnVisibility((prev) => {
-            const newVisibility = { ...prev, isActive: !prev.isActive };
-
-            if (newVisibility.isActive) {
-                setColumnFilters([{ id: 'isActive', value: '' }]);
-            } else {
-                setColumnFilters([{ id: 'isActive', value: true }]);
-            }
-
-            return newVisibility;
-        });
-    };
 
     useEffect(() => {
         setData([
@@ -96,18 +73,20 @@ const UsersTableComponent = () => {
     const columns = useMemo<MRT_ColumnDef<UsersTable>[]>(
         () => [
             {
+                accessorFn: (originalRow) => (originalRow.isActive ? 'true' : 'false'),
+                accessorKey: 'isActive',
+                header: 'Status',
+                id: 'isActive',
+                filterVariant: 'checkbox',
+                Cell: ({cell}) => {
+                    return cell.getValue() === 'true' ? 'Active' : 'Deleted'; 
+                }
+            },
+            {
                 accessorKey: 'userName',
                 header: 'User Name',
             },
-            {
-                accessorFn: (originalRow) => (originalRow.isActive ? 'Active' : 'Deleted'),
-                accessorKey: 'isActive',
-                header: 'Status',
-                filterVariant: 'checkbox',
-                filterFn: (row, columnId, filterValue) => {
-                    return row.original.isActive === filterValue;
-                } as FilterFn<UsersTable>,
-            },
+            
             {
                 accessorKey: 'email',
                 header: 'Email',
@@ -119,6 +98,7 @@ const UsersTableComponent = () => {
             {
                 accessorKey: 'role',
                 header: 'Role',
+
             },
             {
                 accessorKey: 'userStores',
@@ -136,28 +116,18 @@ const UsersTableComponent = () => {
         columnFilterDisplayMode: 'popover',
         initialState: {
             pagination: { pageSize: 10, pageIndex: 0 },
-            columnVisibility,  // כאן אנחנו מוסיפים את columnVisibility בתוך initialState
-            columnFilters,
+            columnVisibility : {'isActive' : false},
+            columnFilters : [
+                {
+                    id: 'isActive',
+                    value: true,
+                }
+            ]
         },
         muiPaginationProps: {
             rowsPerPageOptions: [10, 50, 100],
         },
-        renderTopToolbarCustomActions: ({ table }) => (
-            <Tooltip
-                title={columnVisibility.isActive ? 'Show deleted users' : 'Hide deleted users'}
-                placement="bottom-start"
-                arrow
-                enterDelay={500}
-            >
-                <Box sx={{ display: 'flex', gap: '16px', padding: '8px', flexWrap: 'wrap' }}>
-                    <Button onClick={handleToggleIsActiveColumn}>
-                        <PeopleOutlineOutlinedIcon />
-                    </Button>
-                </Box>
-            </Tooltip>
-        ),
-        // onColumnVisibilityChange: setColumnVisibility,
-        // onColumnFilterChange: setColumnFilters,
+        
     });
 
     return (

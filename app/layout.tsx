@@ -1,6 +1,6 @@
 'use client';
 import { ReactNode } from "react";
-import MainNavBar from "../components/NavBar";
+import MainNavBar from "@/components/NavBar";
 import { AuthProvider } from "@/context/AuthContext";
 import { usePathname } from "next/navigation";
 export default function RootLayout({ children }: { children: ReactNode }) {
