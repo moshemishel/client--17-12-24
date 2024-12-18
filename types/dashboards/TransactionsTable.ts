@@ -20,4 +20,3 @@ export type MetaDataItem = {
     total: number;
     count: number;
     color: string;
-  };
