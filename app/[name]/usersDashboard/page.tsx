@@ -1,15 +1,12 @@
 'use client';
-import handleCreateUser from './componnets/createUser'
+import handleCreateUser from './components/createUser';
 import { useState, useMemo, useEffect } from 'react';
 import {
     MaterialReactTable,
     useMaterialReactTable,
     type MRT_ColumnDef,
-    type MRT_FilterFn,
-    type MRT_Row
 } from 'material-react-table';
 import { UsersTable } from '@/types/dashboards/UsersTable';
-import CraeteUserButton from './componnets/createUserButton';
 
 
 type ColumnFilter = {
@@ -129,10 +126,7 @@ const UsersTableComponent = () => {
         muiPaginationProps: {
             rowsPerPageOptions: [10, 50, 100],
         },
-        onCreatingRowSave: handleCreateUser,
-
-        renderTopToolbarCustomActions: () => <CraeteUserButton />,
-
+        
     });
 
 
