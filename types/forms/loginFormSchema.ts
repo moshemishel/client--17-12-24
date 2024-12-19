@@ -1,3 +1,4 @@
+// להוסיף שילוב בדיקות מהספרייה validate 
 import { z } from 'zod';
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
 

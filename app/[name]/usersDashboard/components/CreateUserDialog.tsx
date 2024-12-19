@@ -1,90 +1,128 @@
-import React, { useState } from 'react';
+"use client";
+import { useForm } from "react-hook-form";
+import { useEffect, useRef } from "react";
+import { Schema, schema } from "@/types/forms/editUserDialog";
+import { zodResolver } from "@hookform/resolvers/zod";
+// import createUser from './createUser';
+import NameField from "./fields/Name";
+import EmailField from "./fields/Email";
+import PhoneField from "./fields/Phone";
+import RoleField from "./fields/Role";
+import SaveButton from "./fields/SaveButton";
 import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    Button,
-    TextField,
-    Box,
-    checkboxClasses,
-} from '@mui/material';
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 
 interface CreateUserDialogProps {
-    open: boolean;
-    onClose: () => void;
-    onSave: (userData: Record<string, any>) => void; // פונקציה לקבלת הנתונים החדשים
+  open: boolean;
+  onClose: () => void;
 }
 
-const CreateUserDialog: React.FC<CreateUserDialogProps> = ({ open, onClose, onSave }) => {
-    const [userData, setUserData] = useState({
-        name: '',
-        email: '',
-        role: '',
-        phone: '',
+const CreateUserDialog: React.FC<CreateUserDialogProps> = ({
+  open,
+  onClose,
+}) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<Schema>({
+    mode: "onChange",
+    resolver: zodResolver(schema),
+  });
 
-    });
+  async function onSubmit(data: Schema) {
+    console.log("Sending data...");
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    console.log(data);
+    // update table data
+  }
 
-    const handleChange = (field: string, value: string) => {
-        setUserData((prev) => ({
-            ...prev,
-            [field]: value,
-        }));
-    };
+  const refs = {
+    name: useRef<HTMLInputElement>(null),
+    email: useRef<HTMLInputElement>(null),
+    phone: useRef<HTMLInputElement>(null),
+    role: useRef<HTMLInputElement>(null),
+    submit: useRef<HTMLButtonElement>(null),
+  };
 
-    const handleSave = () => {
-        onSave(userData);
-        onClose();
-    };
+  useEffect(() => {
+    refs.name.current?.focus();
+  }, [open]);
 
-    return (
-        <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-            <DialogTitle>Create New User</DialogTitle>
-            <DialogContent>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    <TextField
-                        variant='standard'
-                        label="Name"
-                        value={userData.name}
-                        onChange={(e) => handleChange('name', e.target.value)}
-                        fullWidth
-                        required
-                    />
-                    <TextField
-                        variant='standard'
-                        label="Email"
-                        value={userData.email}
-                        onChange={(e) => handleChange('email', e.target.value)}
-                        type="email"
-                        fullWidth
-                        required
-                    />
-                    <TextField
-                        variant='standard'
-                        label="Role"
-                        value={userData.role}
-                        onChange={(e) => handleChange('role', e.target.value)}
-                        fullWidth
-                    />
-                    <TextField
-                        variant='standard'
-                        label="Phone"
-                        value={userData.phone}
-                        onChange={(e) => handleChange('role', e.target.value)}
-                        fullWidth
-                    />
-                </Box>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={onClose} color="secondary">
-                    Cancel
-                </Button>
-                <Button onClick={handleSave} variant="contained" color="primary">
-                    Save
-                </Button>
-            </DialogActions>
-        </Dialog>
-    );
+  function handleKeyDown(
+    e: React.KeyboardEvent<HTMLInputElement>,
+    nextRef: React.RefObject<
+      HTMLInputElement | HTMLButtonElement | HTMLSelectElement
+    >
+  ) {
+    if (e.key === "Enter" && nextRef.current) {
+      e.preventDefault();
+      (nextRef.current as HTMLInputElement | HTMLButtonElement).focus();
+    }
+  }
+
+  return (
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+      <DialogTitle>Create New User</DialogTitle>
+      <DialogContent>
+        <Box
+          component="form"
+          noValidate
+          autoComplete="off"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <NameField
+            ref={refs.name}
+            register={register}
+            errors={errors}
+            handleKeyDown={handleKeyDown}
+            nextRef={refs.email}
+          />
+
+          <EmailField
+            ref={refs.email}
+            register={register}
+            errors={errors}
+            handleKeyDown={handleKeyDown}
+            nextRef={refs.phone}
+          />
+
+          <PhoneField
+            ref={refs.phone}
+            register={register}
+            errors={errors}
+            handleKeyDown={handleKeyDown}
+            nextRef={refs.role}
+          />
+
+          <RoleField
+            ref={refs.role}
+            register={register}
+            errors={errors}
+            handleKeyDown={handleKeyDown}
+            nextRef={refs.submit}
+          />
+
+          <DialogActions>
+            <Button onClick={onClose} color="secondary">
+              Cancel
+            </Button>
+            <SaveButton
+              ref={refs.submit}
+              isSubmitting={isSubmitting}
+              innerText={"Save"}
+            />
+          </DialogActions>
+        </Box>
+      </DialogContent>
+    </Dialog>
+  );
 };
 
 export default CreateUserDialog;

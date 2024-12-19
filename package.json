@@ -33,6 +33,7 @@
     "react-hook-form": "^7.53.1",
     "react-infinite-scroll-component": "^6.1.0",
     "sonner": "^1.7.0",
+    "validator": "^13.12.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -40,6 +41,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/validator": "^13.12.2",
     "eslint": "^8",
     "eslint-config-next": "15.0.1",
     "typescript": "^4.9.4"
