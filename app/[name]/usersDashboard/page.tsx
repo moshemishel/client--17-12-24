@@ -7,6 +7,7 @@ import {
     type MRT_ColumnDef,
 } from 'material-react-table';
 import { UsersTable } from '@/types/dashboards/UsersTable';
+import CreateUserButton from './components/CreateUserButton';
 
 
 type ColumnFilter = {
@@ -126,6 +127,8 @@ const UsersTableComponent = () => {
         muiPaginationProps: {
             rowsPerPageOptions: [10, 50, 100],
         },
+        // onCreatingRowSave: handleCreateUser,
+        renderTopToolbarCustomActions: () => <CreateUserButton />,
         
     });
 

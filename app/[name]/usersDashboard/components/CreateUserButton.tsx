@@ -10,6 +10,7 @@ const UsersDashboard = () => {
 
   const handleSaveUser = (userData: Record<string, any>) => {
     console.log('New User Data:', userData);
+    // שלב זה ניתן להוסיף קריאה ל-API לשמירת היוזר החדש
   };
 
   return (
