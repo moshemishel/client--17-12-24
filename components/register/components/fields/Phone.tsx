@@ -1,11 +1,10 @@
 import { forwardRef } from 'react';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { CommonFieldProps as  NameFieldProps } from '@/types/forms/editUserDialog';
+import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
+import { CommonFieldProps as  PhoneFieldProps } from '@/types/forms/registerFormSchema';
 
-
-const NameField = forwardRef<HTMLInputElement, NameFieldProps>(({
+const PhoneField = forwardRef<HTMLInputElement, PhoneFieldProps>(({
   register, 
   errors, 
   handleKeyDown,
@@ -16,20 +15,20 @@ const NameField = forwardRef<HTMLInputElement, NameFieldProps>(({
         {...register("name")}
         inputRef={ref} 
         variant="standard"
-        name="name"
-        label="Name"
-        error={!!errors.name}  
-        helperText={errors.name?.message}
+        name="phone"
+        label="Phone"
+        error={!!errors.phone}  
+        helperText={errors.phone?.message}
         onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>)=> {
           handleKeyDown(e , nextRef)}}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start" style={{ pointerEvents: "none" }}>
-              <AccountCircleIcon /> 
+              <ContactPhoneIcon /> 
             </InputAdornment>
           )
         }}  
       />
 ));
 
-export default NameField;
+export default PhoneField;

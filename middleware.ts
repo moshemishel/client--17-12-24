@@ -11,7 +11,7 @@ export function middleware(request: NextRequest) {
         return NextResponse.next();
     }
  
-    const publicPathsRegex = /^\/(login|register|checkout)?$/;
+    const publicPathsRegex = /^\/(login|checkout)?$/;
 
 if (publicPathsRegex.test(pathname)) {
     return NextResponse.next();

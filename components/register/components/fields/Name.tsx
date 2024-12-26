@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { CommonFieldProps as  NameFieldProps } from '@/types/forms/editUserDialog';
+import { CommonFieldProps as  NameFieldProps } from '@/types/forms/registerFormSchema';
 
 
 const NameField = forwardRef<HTMLInputElement, NameFieldProps>(({

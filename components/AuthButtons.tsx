@@ -1,16 +1,26 @@
 'use client';
+import { useState } from 'react';
 import { Button } from '@mui/material';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation'; 
+import RegisterDialog from './register/RegisterDialog';
 
 const AuthButtons = () => {
     const pathname = usePathname(); 
-
     const isSuperAdminRoute = (pathname: string | undefined) => pathname?.startsWith('/superAdmin');
-
+    
     if (isSuperAdminRoute(pathname)) {
         return null;
-    }
+    };
+    const [isSignUpDialogOpen, setIsSignUpDialogOpen] = useState(false);
+
+    const handleOpenDialog = () => {
+        setIsSignUpDialogOpen(true);
+      };
+    
+      const handleCloseDialog = () => {
+        setIsSignUpDialogOpen(false);
+      };
 
 
     return (
@@ -20,11 +30,11 @@ const AuthButtons = () => {
                     Login
                 </Button>
             </Link>
-            <Link href="/register">
-                <Button sx={{ marginLeft: '10px' }} variant="contained">
+                <Button sx={{ marginLeft: '10px' }} variant="contained" onClick={handleOpenDialog}>
                     SignUp
                 </Button>
-            </Link>
+
+            {isSignUpDialogOpen && <RegisterDialog onClose={handleCloseDialog} />}
         </>
     );
 };

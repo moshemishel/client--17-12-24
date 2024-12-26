@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import validator from 'validator';
-import { UseFormRegister, FieldErrors, UseFormSetError, UseFormClearErrors, UseFormSetValue} from 'react-hook-form';
+import { UseFormRegister, FieldErrors} from 'react-hook-form';
 
 export const nameSchema = z.string().min(1, "This field is required");
 

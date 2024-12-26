@@ -1,14 +1,9 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { useEffect, useRef } from "react";
-import { Schema, schema } from "@/types/forms/editUserDialogSchema";
+import { useEffect, useRef} from "react";
+import { Schema, schema } from "@/types/forms/registerFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import createUser from './createUser';
-import NameField from "./fields/Name";
-import EmailField from "./fields/Email";
-import PhoneField from "./fields/Phone";
-import RoleField from "./fields/Role";
-import SaveButton from "./fields/SaveButton";
+
 import {
   Box,
   Button,
@@ -18,36 +13,31 @@ import {
   DialogTitle,
 } from "@mui/material";
 
-interface CreateUserDialogProps {
-  open: boolean;
-  onClose: () => void;
+import NameField from "./fields/Name";
+import PhoneField from "./fields/Phone";
+import SendButton from "./fields/SendButton";
+
+
+
+interface ContactForm {
+  onClose: () => void; 
+  onSubmit: (data: { name: string; phone: string }) => Promise<void>;
 }
 
-const CreateUserDialog: React.FC<CreateUserDialogProps> = ({
-  open,
-  onClose,
-}) => {
+
+const ContactForm: React.FC<ContactForm> = ({onClose, onSubmit}) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: {errors, isSubmitting},
   } = useForm<Schema>({
     mode: "onChange",
     resolver: zodResolver(schema),
   });
 
-  async function onSubmit(data: Schema) {
-    console.log("Sending data...");
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    console.log(data);
-    // update table data
-  }
-
   const refs = {
     name: useRef<HTMLInputElement>(null),
-    email: useRef<HTMLInputElement>(null),
     phone: useRef<HTMLInputElement>(null),
-    role: useRef<HTMLInputElement>(null),
     submit: useRef<HTMLButtonElement>(null),
   };
 
@@ -57,9 +47,7 @@ const CreateUserDialog: React.FC<CreateUserDialogProps> = ({
 
   function handleKeyDown(
     e: React.KeyboardEvent<HTMLInputElement>,
-    nextRef: React.RefObject<
-      HTMLInputElement | HTMLButtonElement | HTMLSelectElement
-    >
+    nextRef: React.RefObject<HTMLInputElement | HTMLButtonElement>
   ) {
     if (e.key === "Enter" && nextRef.current) {
       e.preventDefault();
@@ -68,8 +56,8 @@ const CreateUserDialog: React.FC<CreateUserDialogProps> = ({
   }
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>Create New User</DialogTitle>
+    <Dialog open={true} onClose={onClose} fullWidth maxWidth="sm">
+      <DialogTitle>Contact Details</DialogTitle>
       <DialogContent>
         <Box
           component="form"
@@ -82,14 +70,6 @@ const CreateUserDialog: React.FC<CreateUserDialogProps> = ({
             register={register}
             errors={errors}
             handleKeyDown={handleKeyDown}
-            nextRef={refs.email}
-          />
-
-          <EmailField
-            ref={refs.email}
-            register={register}
-            errors={errors}
-            handleKeyDown={handleKeyDown}
             nextRef={refs.phone}
           />
 
@@ -98,22 +78,15 @@ const CreateUserDialog: React.FC<CreateUserDialogProps> = ({
             register={register}
             errors={errors}
             handleKeyDown={handleKeyDown}
-            nextRef={refs.role}
-          />
-
-          <RoleField
-            ref={refs.role}
-            register={register}
-            errors={errors}
-            handleKeyDown={handleKeyDown}
             nextRef={refs.submit}
           />
 
           <DialogActions>
-            <Button onClick={onClose} color="secondary">
-              Cancel
+            <Button onClick={onClose} color="primary">
+              Close
             </Button>
-            <SaveButton
+            
+            <SendButton
               ref={refs.submit}
               isSubmitting={isSubmitting}
               innerText={"Save"}
@@ -125,4 +98,4 @@ const CreateUserDialog: React.FC<CreateUserDialogProps> = ({
   );
 };
 
-export default CreateUserDialog;
+export default ContactForm;
