@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+'use client'
+import { useState } from 'react';
 import { Button } from '@mui/material';
-import CreateUserDialog from './createUserDialog';
+import CreateUserDialog from './CreateUserDialog';
 
 const UsersDashboard = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -8,10 +9,6 @@ const UsersDashboard = () => {
   const handleOpenDialog = () => setIsDialogOpen(true);
   const handleCloseDialog = () => setIsDialogOpen(false);
 
-  const handleSaveUser = (userData: Record<string, any>) => {
-    console.log('New User Data:', userData);
-    // שלב זה ניתן להוסיף קריאה ל-API לשמירת היוזר החדש
-  };
 
   return (
     <>
@@ -21,7 +18,6 @@ const UsersDashboard = () => {
       <CreateUserDialog
         open={isDialogOpen}
         onClose={handleCloseDialog}
-        onSave={handleSaveUser}
       />
     </>
   );

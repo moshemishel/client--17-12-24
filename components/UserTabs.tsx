@@ -18,7 +18,7 @@ const userTabs = () =>{
     
     useEffect(() => {
         if (currentTab) {
-            const currentTabIndex = pages.findIndex(page => page.link.includes(currentTab));
+            const currentTabIndex = pages.findIndex(page => page.link.endsWith(currentTab));
             setCurrentTabIndex(currentTabIndex);            
         }
     }, [pathname, pages]);
@@ -28,7 +28,7 @@ const userTabs = () =>{
         <Tabs 
             textColor="inherit"
             indicatorColor="secondary" 
-            value={currentTabIndex !== -1 ? currentTabIndex : false} 
+            value={currentTabIndex != -1 ? currentTabIndex : false} 
             onChange={(e, val) => router.push(pages[val].link)}
         >
             {pages.map((page, index) => (
